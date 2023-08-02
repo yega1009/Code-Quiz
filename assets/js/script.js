@@ -41,6 +41,8 @@ var resultEl = document.getElementById('result');
 var scoreFormEl = document.getElementById('score-form');
 var initialInputEl = document.getElementById('initials');
 var highScoresEl = document.getElementById('highscores');
+var goBackEl = document.getElementById('go-back');
+var clearHighScores = document.getElementById('clear-highscores')
 
 // Get highscores from local storage of initialize an empty array if none in local storage
 var highscores = JSON.parse(localStorage.getItem('highscores')) || [];
@@ -60,6 +62,7 @@ function resetGame() {
     time = 60;
     score = 0;
     currentQuestion = 0;
+    scoreFormEl.style.display = 'none';
 }
 
 // Function to display multiple choice questions
@@ -119,6 +122,7 @@ function endGame() {
 
 // Add event listener to start button
 start.addEventListener('click', function () {
+    highScoresEl.style.display = 'none';
     resetGame();
     // Start timer
     var timer = setInterval(function () {
@@ -136,5 +140,47 @@ start.addEventListener('click', function () {
     // Display first question
     showQuestion();
 })
+
+// Add event listener to the form submission
+scoreFormEl.addEventListener('submit', function (event) {
+    // Prevent the form from submitting and causing a page refresh
+    event.preventDefault();
+    // Get the user's initials from the input field
+    var initials = initialInputEl.value;
+    // If no initials entered, log an error message
+    if (!initials) {
+        console.error('No initials entered.');
+        return;
+    }
+    // Add user's score and initials to highscores array
+    highscores.push({ initials: initials, score: score });
+    // Save the highscores array to local storage
+    localStorage.setItem('highscores', JSON.stringify(highscores));
+    // Display highscores array
+    highScoresEl.style.display = 'block';
+    // Clear previous highscores from view
+    highScoresEl.innerHTML = '';
+    // Loop through highscores array and add every highscores again to the page
+    for (var i = 0; i < highscores.length; i++) {
+        var highscore = highscores[i];
+        // Append paragraph with initials and score to existing HTML content in highScoresEL element
+        highScoresEl.innerHTML += '<p>' + highscore.initials + ': ' + highscore.score + '</p>';
+    }
+    // Hide form
+    scoreFormEl.style.display = 'none';
+});
+
+// Add event listener to the go-back button
+goBackEl.addEventListener('click', function () {
+    document.getElementById('highscores').style.display = 'none';
+    document.getElementById('start').style.display = 'block';
+});
+
+// Add event listener to the clear-highscores button
+clearHighScores.addEventListener('click', function () {
+    localStorage.removeItem('highscores');
+    highscores = [];
+    document.getElementById('highscores').innerHTML = '';
+});
 
 
