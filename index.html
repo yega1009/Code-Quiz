@@ -5,16 +5,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./assets/css/style.cs" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Code Quiz</title>
 </head>
 
 <body>
+    <a href="#" id="view-highscores" style="position: absolute; top: 10px; left: 10px;">View High Scores</a>
     <h1>Coding Quiz Challenge</h1>
     <h3>Try to answer the following code-related questions within the time limit.</h3>
     <h3>Keep in mind that incorrect answers will penalize your score/time by ten seconds!</h3>
-    <div id="timer"></div>
-    <div class="quiz-container">
-        <button id="start">Start Quiz</button>
+
+    <button id="start">Start Quiz</button>
+
+    <div id="quiz-container" style="display: none;"></div>
+
+    <div id="timer" style="display: none;"></div>
+
+    <div id="result" style="display: none;"></div>
+
+    <form id="score-form" style="display: none;">
+        <label for="initials">Enter your initials: </label>
+        <input type="text" id="initials" placeholder="AB">
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="highscores" style="display: none;">
+        <button id="go-back">Go Back</button>
+        <button id="clear-highscores">Clear High Scores</button>
     </div>
-   
+
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
