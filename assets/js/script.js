@@ -55,32 +55,42 @@ viewHighScores.addEventListener('click', function () {
     highScoresEl.style.display = 'block';
 });
 
+// Function to reset parameters
 function resetGame() {
     time = 60;
     score = 0;
     currentQuestion = 0;
 }
 
+// Function to display multiple choice questions
 function showQuestion() {
     quizContainerEl.innerHTML = '';
     resultEl.style.display = 'none';
+    // Check if current question is beyond length of array and if so, end game
     if (currentQuestion >= questions.length) {
         endGame();
         return;
     }
+    // Create question element and add them to quiz container
     var questionEl = document.createElement('h2');
     questionEl.innerText = questions[currentQuestion].question;
     quizContainerEl.appendChild(questionEl);
+    // Loop through multiple choice options of current questions 
     for (var i = 0; i < questions[currentQuestion].choices.length; i++) {
         var choice = questions[currentQuestion].choices[i];
         var button = document.createElement('button');
         button.innerText = choice;
         (function (choice) {
+            // When button is clicked, checks if it is the correct answer 
             button.addEventListener('click', function () {
+                // If choice is correct, displays result
+                // Else, displays result and subtracts time
                 if (choice === questions[currentQuestion].answer) {
                     currentQuestion++;
                     resultEl.style.display = 'block';
                     resultEl.innerText = 'CORRECT!';
+                    // If there are questions left, show the next question
+                    // Else, end game
                     if (currentQuestion < questions.length) {
                         showQuestion();
                     } else {
@@ -93,10 +103,12 @@ function showQuestion() {
                 }
             });
         })(choice);
+        // Add choice button to quiz container
         quizContainerEl.appendChild(button);
     }
 }
 
+// Function to end game that shows score form
 function endGame() {
     time = 0;
     timerEl.style.display = 'none';
@@ -105,18 +117,23 @@ function endGame() {
     resultEl.style.display = 'none';
 }
 
+// Add event listener to start button
 start.addEventListener('click', function () {
     resetGame();
+    // Start timer
     var timer = setInterval(function () {
         time--;
         timerEl.innerText = 'Time: ' + time;
+        // End game if time runs out
         if (time <= 0 || currentQuestion >= questions.length) {
             clearInterval(timer);
             endGame();
         }
     }, 1000);
+    // Show the quiz container and timer
     quizContainerEl.style.display = 'block';
     timerEl.style.display = 'block';
+    // Display first question
     showQuestion();
 })
 
