@@ -1,6 +1,6 @@
 // Initialize Variables
 var time = 60;
-var score = 0; 
+var score = 0;
 var currentQuestion = 0;
 
 // Array of question objects, where each one has a question, choices and answer
@@ -39,6 +39,7 @@ var quizContainerEl = document.getElementById('quiz-container');
 var timerEl = document.getElementById('timer');
 var resultEl = document.getElementById('result');
 var scoreFormEl = document.getElementById('score-form');
+var scoreMessageEl = document.getElementById('score-message');
 var initialInputEl = document.getElementById('initials');
 var highScoresEl = document.getElementById('highscores');
 var goBackEl = document.getElementById('go-back');
@@ -46,16 +47,6 @@ var clearHighScores = document.getElementById('clear-highscores')
 
 // Get highscores from local storage of initialize an empty array if none in local storage
 var highscores = JSON.parse(localStorage.getItem('highscores')) || [];
-
-// Add event listener for "view highscores" button to show high scores and nothing else
-viewHighScores.addEventListener('click', function () {
-    start.style.display = 'none';
-    quizContainerEl.style.display = 'none';
-    timerEl.style.display = 'none';
-    resultEl.style.display = 'none';
-    scoreFormEl.style.display = 'none';
-    highScoresEl.style.display = 'block';
-});
 
 // Function to reset parameters
 function resetGame() {
@@ -68,7 +59,6 @@ function resetGame() {
 // Function to display multiple choice questions
 function showQuestion() {
     quizContainerEl.innerHTML = '';
-    resultEl.style.display = 'none';
     // Check if current question is beyond length of array and if so, end game
     if (currentQuestion >= questions.length) {
         endGame();
@@ -83,29 +73,23 @@ function showQuestion() {
         var choice = questions[currentQuestion].choices[i];
         var button = document.createElement('button');
         button.innerText = choice;
-        (function (choice) {
-            // When button is clicked, checks if it is the correct answer 
-            button.addEventListener('click', function () {
-                // If choice is correct, displays result
-                // Else, displays result and subtracts time
-                if (choice === questions[currentQuestion].answer) {
-                    currentQuestion++;
-                    resultEl.style.display = 'block';
-                    resultEl.innerText = 'CORRECT!';
-                    // If there are questions left, show the next question
-                    // Else, end game
-                    if (currentQuestion < questions.length) {
-                        showQuestion();
-                    } else {
-                        endGame();
-                    }
-                } else {
-                    time -= 10;
-                    resultEl.style.display = 'block';
-                    resultEl.innerText = 'WRONG!';
-                }
-            });
-        })(choice);
+        // When button is clicked, checks if it is the correct answer 
+        button.addEventListener('click', function (event) {
+            // If choice is correct, displays result
+            // Else, displays result and subtracts time
+            if (event.target.textContent === questions[currentQuestion].answer) {
+                currentQuestion++;
+                resultEl.style.display = 'block';
+                resultEl.innerText = 'CORRECT!';
+                // If there are questions left, show the next question
+                // Else, end game
+                showQuestion();
+            } else {
+                time -= 10;
+                resultEl.style.display = 'block';
+                resultEl.innerText = 'WRONG!';
+            }
+        });
         // Add choice button to quiz container
         quizContainerEl.appendChild(button);
     }
@@ -113,21 +97,34 @@ function showQuestion() {
 
 // Function to end game that shows score form
 function endGame() {
-    time = 0;
+    score = time;
     timerEl.style.display = 'none';
     quizContainerEl.style.display = 'none';
     scoreFormEl.style.display = 'block';
     resultEl.style.display = 'none';
+
+    scoreFormEl.style.display = 'block';
 }
+
+// Add event listener for "view highscores" button to show high scores and nothing else
+viewHighScores.addEventListener('click', function () {
+    start.style.display = 'none';
+    quizContainerEl.style.display = 'none';
+    timerEl.style.display = 'none';
+    resultEl.style.display = 'none';
+    scoreFormEl.style.display = 'none';
+    highScoresEl.style.display = 'block';
+});
 
 // Add event listener to start button
 start.addEventListener('click', function () {
     highScoresEl.style.display = 'none';
+    start.style.display = 'none';
     resetGame();
     // Start timer
     var timer = setInterval(function () {
         time--;
-        timerEl.innerText = 'Time: ' + time;
+        timerEl.innerText = 'Time left: ' + time + 's';
         // End game if time runs out
         if (time <= 0 || currentQuestion >= questions.length) {
             clearInterval(timer);
@@ -148,7 +145,7 @@ scoreFormEl.addEventListener('submit', function (event) {
     // Get the user's initials from the input field
     var initials = initialInputEl.value;
     // If no initials entered, log an error message
-    if (!initials) {
+    if (initials === '') {
         console.error('No initials entered.');
         return;
     }
@@ -166,7 +163,11 @@ scoreFormEl.addEventListener('submit', function (event) {
         // Append paragraph with initials and score to existing HTML content in highScoresEL element
         highScoresEl.innerHTML += '<p>' + highscore.initials + ': ' + highscore.score + '</p>';
     }
-    // Hide form
+    // Adding the go-back and clear-highscores buttons to highScoresEl
+    highScoresEl.appendChild(goBackEl);
+    highScoresEl.appendChild(clearHighScores);
+
+    // Hide form and display buttons
     scoreFormEl.style.display = 'none';
 });
 
@@ -181,6 +182,7 @@ clearHighScores.addEventListener('click', function () {
     localStorage.removeItem('highscores');
     highscores = [];
     document.getElementById('highscores').innerHTML = '';
+
 });
 
 

@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    color: #000000;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h2,
+h3 {
+    color: #000000;
+    text-align: center;
+}
+
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+#view-highscores {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #000000;
+
+}
+
+#quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+#quiz-container h2 {
+    margin-bottom: 20px;
+}
+
+#highscores  {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#start,
+#quiz-container button,
+#score-form input[type="submit"] {
+    display: block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #59137d;
+    color: #fff;
+    cursor: pointer;
+}
+
+#highscores button {
+    justify-content: center;
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: #333;
+    border-radius: 10px;
+    background-color: #59137d;
+    color: #fff;
+    cursor: pointer;
+}
+
+#start:hover,
+#quiz-container button:hover,
+#highscores button:hover,
+#score-form input[type="submit"]:hover {
+    background-color: #7c15b7;
+}
+
+#result {
+    color: #434343;
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+#score-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+#score-form input[type="text"] {
+    margin: 20px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
