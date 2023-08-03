@@ -3,6 +3,7 @@
 This is an application that generates a coding assessment for the user.
 
 ## Link to Deployed Application
+<a href="https://yega1009.github.io/Code-Quiz/">Code Quiz</a>
 
 ## Description
 - I wrote the css, html, and javascript code to create the functions of a coding quiz, as well as styling and layout.
@@ -23,6 +24,13 @@ N/A
 
 
 ## Screenshot of the Website
+![Screenshot 1](./assets/images/image-1.png)
+![Screenshot 2](./assets/images/image-2.png)
+![Screenshot 3](./assets/images/image-3.png)
+![Screenshot 4](./assets/images/image-4.png)
+![Screenshot 5](./assets/images/image-5.png)
+![Screenshot 6](./assets/images/image-6.png)
+
 
 ## Credits
 N/A
