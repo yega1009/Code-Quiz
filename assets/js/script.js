@@ -102,7 +102,6 @@ function endGame() {
     quizContainerEl.style.display = 'none';
     scoreFormEl.style.display = 'block';
     resultEl.style.display = 'none';
-
     scoreFormEl.style.display = 'block';
 }
 
@@ -114,6 +113,8 @@ viewHighScores.addEventListener('click', function () {
     resultEl.style.display = 'none';
     scoreFormEl.style.display = 'none';
     highScoresEl.style.display = 'block';
+    highScoresEl.appendChild(goBackEl);
+    highScoresEl.appendChild(clearHighScores);
 });
 
 // Add event listener to start button
