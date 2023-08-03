@@ -34,13 +34,15 @@ var questions = [
 
 // Get HTMl elements
 var viewHighScores = document.getElementById('view-highscores');
+var startScreen = document.getElementById('start-screen');
 var start = document.getElementById('start');
 var quizContainerEl = document.getElementById('quiz-container');
 var timerEl = document.getElementById('timer');
 var resultEl = document.getElementById('result');
 var scoreFormEl = document.getElementById('score-form');
-var scoreMessageEl = document.getElementById('score-message');
+var finalScore = document.getElementById('final-score');
 var initialInputEl = document.getElementById('initials');
+var highScoreListEl = document.getElementById('highscore-list');
 var highScoresEl = document.getElementById('highscores');
 var goBackEl = document.getElementById('go-back');
 var clearHighScores = document.getElementById('clear-highscores')
@@ -58,6 +60,7 @@ function resetGame() {
 
 // Function to display multiple choice questions
 function showQuestion() {
+    startScreen.style.display = 'none';
     quizContainerEl.innerHTML = '';
     // Check if current question is beyond length of array and if so, end game
     if (currentQuestion >= questions.length) {
@@ -102,6 +105,9 @@ function endGame() {
     quizContainerEl.style.display = 'none';
     scoreFormEl.style.display = 'block';
     resultEl.style.display = 'none';
+    startScreen.style.display = 'none';
+
+    finalScore.textContent = score;
     scoreFormEl.style.display = 'block';
 }
 
@@ -152,17 +158,21 @@ scoreFormEl.addEventListener('submit', function (event) {
     }
     // Add user's score and initials to highscores array
     highscores.push({ initials: initials, score: score });
+    // Sort the highscores array by score in descending order
+    highscores.sort(function (a, b) {
+        return b.score - a.score;
+    });
     // Save the highscores array to local storage
     localStorage.setItem('highscores', JSON.stringify(highscores));
     // Display highscores array
     highScoresEl.style.display = 'block';
     // Clear previous highscores from view
-    highScoresEl.innerHTML = '';
+    highScoreListEl.innerHTML = '';
     // Loop through highscores array and add every highscores again to the page
     for (var i = 0; i < highscores.length; i++) {
         var highscore = highscores[i];
         // Append paragraph with initials and score to existing HTML content in highScoresEL element
-        highScoresEl.innerHTML += '<p>' + highscore.initials + ': ' + highscore.score + '</p>';
+        highScoreListEl.innerHTML += '<p>' + (i+1) + '. ' + highscore.initials + ': ' + highscore.score + '</p>';
     }
     // Adding the go-back and clear-highscores buttons to highScoresEl
     highScoresEl.appendChild(goBackEl);
@@ -176,14 +186,15 @@ scoreFormEl.addEventListener('submit', function (event) {
 goBackEl.addEventListener('click', function () {
     document.getElementById('highscores').style.display = 'none';
     document.getElementById('start').style.display = 'block';
+    startScreen.style.display = 'block';
 });
 
 // Add event listener to the clear-highscores button
 clearHighScores.addEventListener('click', function () {
     localStorage.removeItem('highscores');
     highscores = [];
-    document.getElementById('highscores').innerHTML = '';
-
+    highScoreListEl.innerHTML = '';
+    
 });
 
 
